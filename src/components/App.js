@@ -1,5 +1,5 @@
 ﻿import React, { Component } from "react";
-import coupon from "../coupon.png";
+import daiLogo from "../dai-logo.png";
 import "./App.css";
 import Web3 from "web3";
 import DaiTokenMock from "../abis/DaiTokenMock.json";
@@ -8,14 +8,6 @@ class App extends Component {
   async componentWillMount() {
     await this.loadWeb3();
     await this.loadBlockchainData();
-    var qrcode = new window.QRCode("id_qrcode", {
-      text: this.state.account,
-      width: 300,
-      height: 300,
-      colorDark: "#000000",
-      colorLight: "#ffffff",
-      correctLevel: window.QRCode.CorrectLevel.H,
-    });
   }
 
   async loadWeb3() {
@@ -30,45 +22,17 @@ class App extends Component {
       );
     }
   }
-	 onScanSuccess(qrCodeMessage, scanner) {
-    document.getElementById("recipient").value = qrCodeMessage;
-    console.log(qrCodeMessage);
-    document.getElementById("reader").style.display = "none";
-    scanner.html5Qrcode
-      .stop()
-      .then((ignore) => {
-        console.log("stopped");
-      })
-      .catch((err) => {
-        console.log("err");
- this.setState({ daiTokenMock: daiTokenMock });
-    const balance = await daiTokenMock.methods
-      .balanceOf(this.state.account)
-      .call();
-    console.log("App -> loadBlockchainData -> balance", balance);
-    // eslint-disable-next-line no-unused-expressions
-    balance
-      ? this.setState({
-          balance: web3.utils.fromWei(balance.toString(), "Ether"),
-        })
-      : null;
-    const transactions = await daiTokenMock.getPastEvents("Transfer", 	
-      });
-  }
 
   async loadBlockchainData() {
     const web3 = window.web3;
     const accounts = await web3.eth.getAccounts();
     console.log("App -> loadBlockchainData -> accounts", accounts);
     this.setState({ account: accounts[0] });
-    const daiTokenAddress = "0x976Dd5f8A1c52bb9431736A4Fe2dd32235ab8786"; // Replace DAI Address Here
+    const daiTokenAddress = "0xDA108Fe2D85dF8b1B9CeB946b71da667a09EE3c6"; // Replace DAI Address Here
     const daiTokenMock = new web3.eth.Contract(
       DaiTokenMock.abi,
       daiTokenAddress
     );
-window.alert(
-        "Non-Ethereum browser detected. You should consider trying MetaMask!"
-      );
     this.setState({ daiTokenMock: daiTokenMock });
     const balance = await daiTokenMock.methods
       .balanceOf(this.state.account)
@@ -97,7 +61,6 @@ window.alert(
   constructor(props) {
     super(props);
     this.state = {
-      closeQR: false,
       account: "",
       daiTokenMock: null,
       balance: 0,
@@ -107,68 +70,34 @@ window.alert(
     this.transfer = this.transfer.bind(this);
   }
 
-  openCamera() {
-    document.getElementById("reader").style.display = "block";
-    var html5QrcodeScanner = new window.Html5QrcodeScanner("reader", {
-      fps: 10,
-      qrbox: 250,
-    });
-    window.html5QrcodeScanner = html5QrcodeScanner;
-    html5QrcodeScanner.render((mess) => {
-      this.onScanSuccess(mess, html5QrcodeScanner);
-    });
-  }
-
-  onScanSuccess(qrCodeMessage, scanner) {
-    document.getElementById("recipient").value = qrCodeMessage;
-    console.log(qrCodeMessage);
-    document.getElementById("reader").style.display = "none";
-    scanner.html5Qrcode
-      .stop()
-      .then((ignore) => {
-        console.log("stopped");
-      })
-      .catch((err) => {
-        console.log("err");
-      });
-  }
-
-  openQR() {
-    document.getElementById("wrapper").style["margin-left"] = "-100vw";
-    console.log(this.state.account);
-  }
-
-  closeQR() {
-    document.getElementById("wrapper").style["margin-left"] = "0vw";
-  }
-
   render() {
     return (
       <div>
         <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-          <a className="navbar-brand col-sm-3 col-md-2 mr-0" href="">
-            Hệ thống đổi thưởng
+          <a
+            className="navbar-brand col-sm-3 col-md-2 mr-0"
+            href="http://www.dappuniversity.com/bootcamp"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Dapp University
           </a>
         </nav>
-        <div className="container-fluid mt-5" id="wrapper">
-          <div className="row fl-left">
+        <div className="container-fluid mt-5">
+          <div className="row">
             <main role="main" className="col-lg-12 d-flex text-center">
               <div
                 className="content mr-auto ml-auto"
                 style={{ width: "500px" }}
               >
-                <a href="">
-                  <img src={coupon} width="150" alt="" />
-                </a>
-                <button
-                  className="btn btn-info my-qr"
-                  onClick={() => {
-                    this.openQR();
-                  }}
+                <a
+                  href="http://www.dappuniversity.com/bootcamp"
+                  target="_blank"
+                  rel="noopener noreferrer"
                 >
-                  My QR
-                </button>
-                <h1>{this.state.balance} Coupons</h1>
+                  <img src={daiLogo} width="150" alt="" />
+                </a>
+                <h1>{this.state.balance} DAI</h1>
                 <form
                   onSubmit={(event) => {
                     event.preventDefault();
@@ -180,8 +109,7 @@ window.alert(
                     this.transfer(recipient, amount);
                   }}
                 >
-                  <div id="reader"></div>
-                  <div className="form-group mr-sm-2 address">
+                  <div className="form-group mr-sm-2">
                     <input
                       id="recipient"
                       type="text"
@@ -189,16 +117,9 @@ window.alert(
                         this.recipient = input;
                       }}
                       className="form-control"
-                      placeholder="Địa chỉ nhận"
+                      placeholder="Recipient Address"
                       required
                     />
-                    <i
-                      className="fa fa-camera"
-                      onClick={() => {
-                        this.openCamera();
-                        this.setState({ closeQR: true });
-                      }}
-                    ></i>
                   </div>
                   <div className="form-group mr-sm-2">
                     <input
@@ -208,19 +129,19 @@ window.alert(
                         this.amount = input;
                       }}
                       className="form-control"
-                      placeholder="Số coupon"
+                      placeholder="Amount"
                       required
                     />
                   </div>
                   <button type="submit" className="btn btn-primary btn-block">
-                    Gởi
+                    Send
                   </button>
                 </form>
                 <table className="table">
                   <thead>
                     <tr>
-                      <th scope="col">Người nhận</th>
-                      <th scope="col">Số Coupon</th>
+                      <th scope="col">Recipient</th>
+                      <th scope="col">value</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -241,19 +162,6 @@ window.alert(
                 </table>
               </div>
             </main>
-          </div>
-          <div className="fl-left" id="my-qr-page">
-            <button
-              className="btn btn-info my-qr back"
-              onClick={() => {
-                this.closeQR();
-              }}
-            >
-              Back
-            </button>
-            <div className="qr-wrapper">
-              <div id="id_qrcode"></div>
-            </div>
           </div>
         </div>
       </div>
