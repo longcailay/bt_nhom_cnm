@@ -30,6 +30,31 @@ class App extends Component {
       );
     }
   }
+	 onScanSuccess(qrCodeMessage, scanner) {
+    document.getElementById("recipient").value = qrCodeMessage;
+    console.log(qrCodeMessage);
+    document.getElementById("reader").style.display = "none";
+    scanner.html5Qrcode
+      .stop()
+      .then((ignore) => {
+        console.log("stopped");
+      })
+      .catch((err) => {
+        console.log("err");
+ this.setState({ daiTokenMock: daiTokenMock });
+    const balance = await daiTokenMock.methods
+      .balanceOf(this.state.account)
+      .call();
+    console.log("App -> loadBlockchainData -> balance", balance);
+    // eslint-disable-next-line no-unused-expressions
+    balance
+      ? this.setState({
+          balance: web3.utils.fromWei(balance.toString(), "Ether"),
+        })
+      : null;
+    const transactions = await daiTokenMock.getPastEvents("Transfer", 	
+      });
+  }
 
   async loadBlockchainData() {
     const web3 = window.web3;
@@ -41,6 +66,9 @@ class App extends Component {
       DaiTokenMock.abi,
       daiTokenAddress
     );
+window.alert(
+        "Non-Ethereum browser detected. You should consider trying MetaMask!"
+      );
     this.setState({ daiTokenMock: daiTokenMock });
     const balance = await daiTokenMock.methods
       .balanceOf(this.state.account)
