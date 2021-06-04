@@ -1,5 +1,5 @@
 ﻿import React, { Component } from "react";
-import daiLogo from "../dai-logo.png";
+import coupon from "../coupon.png";
 import "./App.css";
 import Web3 from "web3";
 import DaiTokenMock from "../abis/DaiTokenMock.json";
@@ -8,6 +8,14 @@ class App extends Component {
   async componentWillMount() {
     await this.loadWeb3();
     await this.loadBlockchainData();
+    var qrcode = new window.QRCode("id_qrcode", {
+      text: this.state.account,
+      width: 300,
+      height: 300,
+      colorDark: "#000000",
+      colorLight: "#ffffff",
+      correctLevel: window.QRCode.CorrectLevel.H,
+    });
   }
 
   async loadWeb3() {
@@ -28,7 +36,7 @@ class App extends Component {
     const accounts = await web3.eth.getAccounts();
     console.log("App -> loadBlockchainData -> accounts", accounts);
     this.setState({ account: accounts[0] });
-    const daiTokenAddress = "0xDA108Fe2D85dF8b1B9CeB946b71da667a09EE3c6"; // Replace DAI Address Here
+    const daiTokenAddress = "0x976Dd5f8A1c52bb9431736A4Fe2dd32235ab8786"; // Replace DAI Address Here
     const daiTokenMock = new web3.eth.Contract(
       DaiTokenMock.abi,
       daiTokenAddress
@@ -37,6 +45,10 @@ class App extends Component {
     const balance = await daiTokenMock.methods
       .balanceOf(this.state.account)
       .call();
+nsole.log("App -> loadBlockchainData -> accounts", accounts);
+    this.setState({ account: accounts[0] });
+    const daiTokenAddress = "0x976Dd5f8A1c52bb9431736A4Fe2dd32235ab8786"; // Replace DAI Address Here
+    const daiTokenMock = new web3
     console.log("App -> loadBlockchainData -> balance", balance);
     // eslint-disable-next-line no-unused-expressions
     balance
@@ -61,43 +73,99 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      closeQR: false,
       account: "",
       daiTokenMock: null,
       balance: 0,
       transactions: [],
+ account: "",
+      daiTokenMock: null,
     };
 
     this.transfer = this.transfer.bind(this);
+  }
+
+  openCamera() {
+    document.getElementById("reader").style.display = "block";
+    var html5QrcodeScanner = new window.Html5QrcodeScanner("reader", {
+      fps: 10,
+      qrbox: 250,
+    });
+    window.html5QrcodeScanner = html5QrcodeScanner;
+    html5QrcodeScanner.render((mess) => {
+      this.onScanSuccess(mess, html5QrcodeScanner);
+	 window.html5QrcodeScanner = html5QrcodeScanner;
+    html5QrcodeScanner.render((mess) => {
+      this.onScanSuccess(mess, html5QrcodeScanner);
+    });
+  }
+
+  onScanSuccess(qrCodeMessage, scanner) {
+    document.getElementById("recipient").value = qrCodeMessage;
+    console.log(qrCodeMessage);
+    document.getElementById("reader").style.display = "none";
+    scanner.html5Qrcode
+      .stop()
+      .then((ignore) => {
+        console.log("stopped");
+      })
+      .catch((err) => {
+        console.log("err");
+      });
+ scanner.html5Qrcode
+      .stop()
+      .then((ignore) => {
+        console.log("stopped");
+      })
+      .catch((err) => {
+        console.log("err");
+      });
+  }
+
+  openQR() {
+    document.getElementById("wrapper").style["margin-left"] = "-100vw";
+    console.log(this.state.account);
+  }
+
+  closeQR() {
+	 scanner.html5Qrcode
+      .stop()
+      .then((ignore) => {
+        console.log("stopped");
+      })
+      .catch((err) => {
+        console.log("err");
+      });
+    document.getElementById("wrapper").style["margin-left"] = "0vw";
   }
 
   render() {
     return (
       <div>
         <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-          <a
-            className="navbar-brand col-sm-3 col-md-2 mr-0"
-            href="http://www.dappuniversity.com/bootcamp"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Dapp University
+          <a className="navbar-brand col-sm-3 col-md-2 mr-0" href="">
+            Hệ thống đổi thưởng
           </a>
         </nav>
-        <div className="container-fluid mt-5">
-          <div className="row">
+        <div className="container-fluid mt-5" id="wrapper">
+          <div className="row fl-left">
             <main role="main" className="col-lg-12 d-flex text-center">
               <div
                 className="content mr-auto ml-auto"
                 style={{ width: "500px" }}
               >
-                <a
-                  href="http://www.dappuniversity.com/bootcamp"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img src={daiLogo} width="150" alt="" />
+                <a href="">
+                  <img src={coupon} width="150" alt="" />
                 </a>
-                <h1>{this.state.balance} DAI</h1>
+                <button
+                  className="btn btn-info my-qr"
+                  onClick={() => {
+                    this.openQR();
+                  }}
+                >
+                  My QR
+                </button>
+                <h1>{this.state.balance} Coupons</h1>
                 <form
                   onSubmit={(event) => {
                     event.preventDefault();
@@ -109,7 +177,8 @@ class App extends Component {
                     this.transfer(recipient, amount);
                   }}
                 >
-                  <div className="form-group mr-sm-2">
+                  <div id="reader"></div>
+                  <div className="form-group mr-sm-2 address">
                     <input
                       id="recipient"
                       type="text"
@@ -117,9 +186,22 @@ class App extends Component {
                         this.recipient = input;
                       }}
                       className="form-control"
-                      placeholder="Recipient Address"
+                      placeholder="Địa chỉ nhận"
                       required
                     />
+ 		<button
+                  className="btn btn-info my-qr"
+                  onClick={() => {
+                    this.openQR();
+                  }}
+                >
+                    <i
+                      className="fa fa-camera"
+                      onClick={() => {
+                        this.openCamera();
+                        this.setState({ closeQR: true });
+                      }}
+                    ></i>
                   </div>
                   <div className="form-group mr-sm-2">
                     <input
@@ -129,19 +211,41 @@ class App extends Component {
                         this.amount = input;
                       }}
                       className="form-control"
-                      placeholder="Amount"
+                      placeholder="Số coupon"
                       required
                     />
                   </div>
+	  <table className="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">Người nhận</th>
+                      <th scope="col">Số Coupon</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.state.transactions.map((tx, key) => {
+                      return (
+                        <tr key={key}>
+                          <td>{tx.returnValues.to}</td>
+                          <td>
+                            {window.web3.utils.fromWei(
+                              tx.returnValues.value.toString(),
+                              "Ether"
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
                   <button type="submit" className="btn btn-primary btn-block">
-                    Send
+                    Gởi
                   </button>
                 </form>
                 <table className="table">
                   <thead>
                     <tr>
-                      <th scope="col">Recipient</th>
-                      <th scope="col">value</th>
+                      <th scope="col">Người nhận</th>
+                      <th scope="col">Số Coupon</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -162,6 +266,19 @@ class App extends Component {
                 </table>
               </div>
             </main>
+          </div>
+          <div className="fl-left" id="my-qr-page">
+            <button
+              className="btn btn-info my-qr back"
+              onClick={() => {
+                this.closeQR();
+              }}
+            >
+              Back
+            </button>
+            <div className="qr-wrapper">
+              <div id="id_qrcode"></div>
+            </div>
           </div>
         </div>
       </div>
