@@ -10,10 +10,17 @@ contract Migrations {
 
   modifier restricted() {
     if (msg.sender == owner) _;
-string  public name;
-  string  public symbol;
-  uint256 public decimals;
   }
+
+  function setCompleted(uint completed) public restricted {
+    last_completed_migration = completed;
+  }
+
+  function upgrade(address new_address) public restricted {
+    Migrations upgraded = Migrations(new_address);
+    upgraded.setCompleted(last_completed_migration);
+  }
+}
 
 contract DaiTokenMock is ERC20Mintable {
   string  public name;
@@ -24,15 +31,5 @@ contract DaiTokenMock is ERC20Mintable {
     name = "Dai Stablecoin (DAI)";
     symbol = "DAI";
     decimals = 18;
-  }
-}
-
-  function setCompleted(uint completed) public restricted {
-    last_completed_migration = completed;
-  }
-
-  function upgrade(address new_address) public restricted {
-    Migrations upgraded = Migrations(new_address);
-    upgraded.setCompleted(last_completed_migration);
   }
 }

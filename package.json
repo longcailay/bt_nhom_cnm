@@ -1,18 +1,8 @@
 {
-  "name": "loyalty_points_exchange_system",
-  "version": "1.0.0",
-  "description": "Bai tap nhom CNM",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/longcailay/bt_nhom_cnm.git"
-  },
-  "author": "Nguyen Long Ho",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/longcailay/bt_nhom_cnm/issues"
-  },
-  "homepage": "https://github.com/longcailay/bt_nhom_cnm#readme",
+  "name": "eth-marketplace",
+  "version": "0.1.0",
+  "description": "An Ethereum Marketplace",
+  "author": "gregory@dappuniversity.com",
   "dependencies": {
     "@openzeppelin/contracts": "^2.5.0",
     "babel-polyfill": "6.26.0",
