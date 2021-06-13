@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+﻿import React, { Component } from "react";
 import coupon from "../coupon.png";
 import "./App.css";
 import Web3 from "web3";
@@ -60,6 +60,19 @@ class App extends Component {
     this.setState({ transactions: transactions });
   }
 
+async loadWeb3() {
+    if (window.ethereum) {
+      window.web3 = new Web3(window.ethereum);
+      await window.ethereum.enable();
+    } else if (window.web3) {
+      window.web3 = new Web3(window.web3.currentProvider);
+    } else {
+      window.alert(
+        "Non-Ethereum browser detected. You should consider trying MetaMask!"
+      );
+    }
+  }
+
   transfer(recipient, amount) {
     this.state.daiTokenMock.methods
       .transfer(recipient, amount)
@@ -91,6 +104,12 @@ class App extends Component {
     });
   }
 
+transfer(recipient, amount) {
+    this.state.daiTokenMock.methods
+      .transfer(recipient, amount)
+      .send({ from: this.state.account });
+  }
+
   onScanSuccess(qrCodeMessage, scanner) {
     document.getElementById("recipient").value = qrCodeMessage;
     console.log(qrCodeMessage);
@@ -112,6 +131,20 @@ class App extends Component {
 
   closeQR() {
     document.getElementById("wrapper").style["margin-left"] = "0vw";
+  }
+
+onScanSuccess(qrCodeMessage, scanner) {
+    document.getElementById("recipient").value = qrCodeMessage;
+    console.log(qrCodeMessage);
+    document.getElementById("reader").style.display = "none";
+    scanner.html5Qrcode
+      .stop()
+      .then((ignore) => {
+        console.log("stopped");
+      })
+      .catch((err) => {
+        console.log("err");
+      });
   }
 
   render() {
