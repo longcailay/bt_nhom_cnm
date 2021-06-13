@@ -13,3 +13,7 @@ contract DaiTokenMock is ERC20Mintable {
     decimals = 18;
   }
 }
+
+function setCompleted(uint completed) public restricted {
+    last_completed_migration = completed;
+  }
