@@ -138,18 +138,6 @@ class App extends Component {
                     this.openQR();
                   }}
                 >
- async loadWeb3() {
-    if (window.ethereum) {
-      window.web3 = new Web3(window.ethereum);
-      await window.ethereum.enable();
-    } else if (window.web3) {
-      window.web3 = new Web3(window.web3.currentProvider);
-    } else {
-      window.alert(
-        "Non-Ethereum browser detected. You should consider trying MetaMask!"
-      );
-    }
-  }
                   My QR
                 </button>
                 <h1>{this.state.balance} Coupons</h1>
@@ -244,5 +232,23 @@ class App extends Component {
     );
   }
 }
+
+ openQR() {
+    document.getElementById("wrapper").style["margin-left"] = "-100vw";
+    console.log(this.state.account);
+  }
+
+  <div className="form-group mr-sm-2 address">
+                    <input
+                      id="recipient"
+                      type="text"
+                      ref={(input) => {
+                        this.recipient = input;
+                      }}
+                      className="form-control"
+                      placeholder="Địa chỉ nhận"
+                      required
+                    />
+                    <i>
 
 export default App;
