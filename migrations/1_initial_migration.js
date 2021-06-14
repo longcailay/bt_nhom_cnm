@@ -9,5 +9,8 @@ module.exports = async function (deployer) {
   await tokenMock.mint(
     "",
     "10000000000000000000000000"
+	"10000000000000000000000000"
+	"10000000000000000000000000"
+
   );
 };

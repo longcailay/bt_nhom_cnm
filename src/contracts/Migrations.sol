@@ -1,17 +1,5 @@
 pragma solidity >=0.4.21 <0.6.0;
 
-contract DaiTokenMock is ERC20Mintable {
-  string  public name;
-  string  public symbol;
-  uint256 public decimals;
-
-  constructor() public {
-    name = "Dai Stablecoin (DAI)";
-    symbol = "DAI";
-    decimals = 18;
-  }
-}
-
 contract Migrations {
   address public owner;
   uint public last_completed_migration;
@@ -26,6 +14,9 @@ contract Migrations {
 
   function setCompleted(uint completed) public restricted {
     last_completed_migration = completed;
+  }
+  modifier restricted() {
+    if (msg.sender == owner) _;
   }
 
   function upgrade(address new_address) public restricted {
