@@ -41,16 +41,6 @@
   padding-right: 0px;
   transition: 0.5s;
 }
-.my-qr {
-  position: absolute;
-  top: 0;
-  right: 0px;
-}
-#reader {
-  width: 90%;
-  margin: auto;
-  display: none;
-}
 
 .row {
   margin-left: 0px;
