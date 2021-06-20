@@ -36,7 +36,7 @@ class App extends Component {
     const accounts = await web3.eth.getAccounts();
     console.log("App -> loadBlockchainData -> accounts", accounts);
     this.setState({ account: accounts[0] });
-    const daiTokenAddress = "0x976Dd5f8A1c52bb9431736A4Fe2dd32235ab8786"; // Replace DAI Address Here
+    const daiTokenAddress = "0xe5D4ABc99f31F8251d508cb6b090B7655326EF0A"; // Get address form abis/DaiTokenMock.json line 1221 and paste here
     const daiTokenMock = new web3.eth.Contract(
       DaiTokenMock.abi,
       daiTokenAddress
