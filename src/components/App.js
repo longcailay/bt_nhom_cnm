@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import coupon from "../coupon.png";
+import coupon from "../coupons.png";
 import "./App.css";
 import Web3 from "web3";
 import DaiTokenMock from "../abis/DaiTokenMock.json";
@@ -36,7 +36,7 @@ class App extends Component {
     const accounts = await web3.eth.getAccounts();
     console.log("App -> loadBlockchainData -> accounts", accounts);
     this.setState({ account: accounts[0] });
-    const daiTokenAddress = "0xe5D4ABc99f31F8251d508cb6b090B7655326EF0A"; // Get address form abis/DaiTokenMock.json line 1221 and paste here
+    const daiTokenAddress = "0x51FC9104b5caFDe1457b6bf0BD0A89aB650136dD"; // Get address form abis/DaiTokenMock.json line 1221 and paste here
     const daiTokenMock = new web3.eth.Contract(
       DaiTokenMock.abi,
       daiTokenAddress
@@ -49,8 +49,8 @@ class App extends Component {
     // eslint-disable-next-line no-unused-expressions
     balance
       ? this.setState({
-          balance: web3.utils.fromWei(balance.toString(), "Ether"),
-        })
+        balance: web3.utils.fromWei(balance.toString(), "Ether"),
+      })
       : null;
     const transactions = await daiTokenMock.getPastEvents("Transfer", {
       fromBlock: 0,
@@ -119,7 +119,7 @@ class App extends Component {
       <div>
         <nav className="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
           <a className="navbar-brand col-sm-3 col-md-2 mr-0" href="">
-            Hệ thống đổi thưởng
+            Giao Dịch Đổi Thưởng
           </a>
         </nav>
         <div className="container-fluid mt-5" id="wrapper">
@@ -130,17 +130,16 @@ class App extends Component {
                 style={{ width: "500px" }}
               >
                 <a href="">
-                  <img src={coupon} width="150" alt="" />
+                  <img src={coupon} width="350" alt="" />
                 </a>
                 <button
-                  className="btn btn-info my-qr"
+                  className="btn btn-secondary my-qr"
                   onClick={() => {
                     this.openQR();
                   }}
                 >
                   My QR
                 </button>
-                <h1>{this.state.balance} Coupons</h1>
                 <form
                   onSubmit={(event) => {
                     event.preventDefault();
@@ -153,40 +152,49 @@ class App extends Component {
                   }}
                 >
                   <div id="reader"></div>
-                  <div className="form-group mr-sm-2 address">
-                    <input
-                      id="recipient"
-                      type="text"
-                      ref={(input) => {
-                        this.recipient = input;
-                      }}
-                      className="form-control"
-                      placeholder="Địa chỉ nhận"
-                      required
-                    />
-                    <i
-                      className="fa fa-camera"
-                      onClick={() => {
-                        this.openCamera();
-                        this.setState({ closeQR: true });
-                      }}
-                    ></i>
+                  <div id="bodyForm">
+                    <div id="inputForm" width="700" >
+                      <div className="form-group mr-sm-2 address">
+                        <input
+                          id="recipient"
+                          type="text"
+                          ref={(input) => {
+                            this.recipient = input;
+                          }}
+                          className="form-control"
+                          placeholder="Địa chỉ nhận"
+                          required
+                        />
+                        <i
+                          className="fa fa-camera"
+                          onClick={() => {
+                            this.openCamera();
+                            this.setState({ closeQR: true });
+                          }}
+                        ></i>
+                      </div>
+                      <div className="form-group mr-sm-2">
+                        <input
+                          id="amount"
+                          type="text"
+                          ref={(input) => {
+                            this.amount = input;
+                          }}
+                          className="form-control"
+                          placeholder="Số coupon"
+                          required
+                        />
+                      </div>
+                    </div>
+                    <div id="submitForm">
+                      <h1>{this.state.balance} Coupons</h1>
+
+                      <button type="submit" className="btn btn-primary btn-block">
+                        Gởi
+                      </button>
+                    </div>
                   </div>
-                  <div className="form-group mr-sm-2">
-                    <input
-                      id="amount"
-                      type="text"
-                      ref={(input) => {
-                        this.amount = input;
-                      }}
-                      className="form-control"
-                      placeholder="Số coupon"
-                      required
-                    />
-                  </div>
-                  <button type="submit" className="btn btn-primary btn-block">
-                    Gởi
-                  </button>
+
                 </form>
                 <table className="table">
                   <thead>
@@ -216,7 +224,7 @@ class App extends Component {
           </div>
           <div className="fl-left" id="my-qr-page">
             <button
-              className="btn btn-info my-qr back"
+              className="btn btn-secondary my-qr back"
               onClick={() => {
                 this.closeQR();
               }}

@@ -46,7 +46,7 @@
   margin-left: 0px;
   margin-right: 0px;
 }
-button.btn.btn-info.my-qr.back {
+button.btn.btn-secondary.my-qr.back {
   left: 10px;
 }
 .qr-wrapper {
@@ -58,4 +58,12 @@ button.btn.btn-info.my-qr.back {
 div#root {
   width: 100vw;
   overflow: hidden;
+}
+
+#bodyForm {
+  display: flex;
+}
+
+#inputForm {
+  width: 300px;
 }
