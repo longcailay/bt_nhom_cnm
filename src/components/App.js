@@ -36,7 +36,7 @@ class App extends Component {
     const accounts = await web3.eth.getAccounts();
     console.log("App -> loadBlockchainData -> accounts", accounts);
     this.setState({ account: accounts[0] });
-    const daiTokenAddress = "0x51FC9104b5caFDe1457b6bf0BD0A89aB650136dD"; // Get address form abis/DaiTokenMock.json line 1221 and paste here
+    const daiTokenAddress = "0xa9b4d3eb7DeE8Cdf97483043527Ff9f20853fefE"; // Get address form abis/DaiTokenMock.json line 1221 and paste here
     const daiTokenMock = new web3.eth.Contract(
       DaiTokenMock.abi,
       daiTokenAddress
@@ -143,7 +143,8 @@ class App extends Component {
                 <form
                   onSubmit={(event) => {
                     event.preventDefault();
-                    const recipient = this.recipient.value;
+                    const recipient = (this.recipient.value).replace('ethereum:','');
+                    console.log(recipient);
                     const amount = window.web3.utils.toWei(
                       this.amount.value,
                       "Ether"
@@ -190,7 +191,7 @@ class App extends Component {
                     <div id="submitForm">
 
                       <button type="submit" className="btn btn-primary btn-block">
-                        Gởi
+                        Gửi
                       </button>
                     </div>
                   </div>

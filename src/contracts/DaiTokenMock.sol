@@ -9,7 +9,7 @@ contract DaiTokenMock is ERC20Mintable {
 
   constructor() public {
     name = "Dai Stablecoin (DAI)";
-    symbol = "DAI";
+    symbol = "Coupon";
     decimals = 18;
   }
 }
