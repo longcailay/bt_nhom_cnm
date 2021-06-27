@@ -152,6 +152,7 @@ class App extends Component {
                   }}
                 >
                   <div id="reader"></div>
+                  <h1>{this.state.balance} Coupons</h1>
                   <div id="bodyForm">
                     <div id="inputForm" width="700" >
                       <div className="form-group mr-sm-2 address">
@@ -187,7 +188,6 @@ class App extends Component {
                       </div>
                     </div>
                     <div id="submitForm">
-                      <h1>{this.state.balance} Coupons</h1>
 
                       <button type="submit" className="btn btn-primary btn-block">
                         Gởi

@@ -59,11 +59,3 @@ div#root {
   width: 100vw;
   overflow: hidden;
 }
-
-#bodyForm {
-  display: flex;
-}
-
-#inputForm {
-  width: 300px;
-}
